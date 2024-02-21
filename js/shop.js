@@ -33,7 +33,7 @@ function createCategories(){
 function showCategories(){
     categories.forEach(category => {
         let li = document.createElement('li');
-        li.innerHTML += `<a class="block px-2 py-3">${category.name}</a>`;
+        li.innerHTML += `<a id="${category.id}" href="#" class="block px-2 py-3">${category.name}</a>`;
         categoryContainer.appendChild(li);
     })
 }
@@ -65,9 +65,39 @@ function showArticles(){
     })
 }
 
+
+categories.forEach(category => {
+    const categoryLink = document.getElementById(`${category.id}`);
+    categoryLink.addEventListener('click', () => {
+        console.log(category.id);
+       showFilteredArticle(category.id);
+    });
+});
+
 plusButton.addEventListener('click', () => {
 
-})
+});
+
+function showFilteredArticle(categoryId){
+    articleContainer.innerHTML = '';
+
+    const filteredArticles = articles.filter(article => article.idCategory === categoryId);
+    //console.log(filteredArticles);
+
+    filteredArticles.forEach(article => {
+            let card = document.createElement('div');
+            card.setAttribute('class', "mt-4 flex flex-col justify-between");
+            card.innerHTML += `<span class="text-sm text-gray-700">${article.name}</span>`;
+            card.innerHTML += `<p class="text-sm font-medium text-gray-900">${article.price}€</p>`;
+            card.innerHTML += `<button type="button" id="plus" class="rounded-md bg-blue-400 px-3 py-2 flex justify-end">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                    </svg>
+                            </button>`;
+            articleContainer.appendChild(card);
+        
+    })
+}
 
 function showCart(){
     let cartDiv = document.createElement('div');
