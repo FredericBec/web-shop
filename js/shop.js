@@ -1,5 +1,7 @@
 const categoryContainer = document.getElementById('category');
+const categoryTitle = document.getElementById('category-title');
 const articleContainer = document.getElementById('articles');
+const cartContainer = document.getElementById('cart-container')
 const plusButton = document.getElementById('plus');
 let articles = [];
 let categories = [];
@@ -10,6 +12,7 @@ function init(){
     showCategories();
     createArticle();
     showArticles();
+    createCart();
 }
 
 init();
@@ -65,19 +68,29 @@ function showArticles(){
     })
 }
 
-
+/**
+ * Ecoute d'évènement sur l'ensemble des catégories
+ */
 categories.forEach(category => {
     const categoryLink = document.getElementById(`${category.id}`);
     categoryLink.addEventListener('click', () => {
-        console.log(category.id);
-       showFilteredArticle(category.id);
+        //console.log(category.id);
+        showFilteredArticle(category.id);
     });
+});
+
+categoryTitle.addEventListener('click', () => {
+    location.reload();
 });
 
 plusButton.addEventListener('click', () => {
 
 });
 
+/**
+ * fonction permettant d'afficher les articles par la catégorie sélectionnée
+ * @param {*} categoryId 
+ */
 function showFilteredArticle(categoryId){
     articleContainer.innerHTML = '';
 
@@ -93,14 +106,30 @@ function showFilteredArticle(categoryId){
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                                     </svg>
-                            </button>`;
+                                </button>`;
             articleContainer.appendChild(card);
         
     })
 }
 
-function showCart(){
+function createCart(){
     let cartDiv = document.createElement('div');
-    cartDiv.setAttribute('class', "bg-white-400 rounded-md")
-    cartDiv.innerHTML += `<`;
+    cartDiv.setAttribute('class', "flex flex-col justify-center min-h-screen");
+    cartDiv.innerHTML += `<div class="bg-gray-100 rounded-lg sadow-lg p-6">
+                                <h1 class="font-bold">Panier :</h1>
+                                <div id="cart-content" class="flex justify-between mb-4"></div>
+                                <div class="flex justify-between items-center">
+                                    <span class="font-bold">Total :</span>
+                                    <span id="total" class="font-bold"></span>
+                                </div>
+                                <div>
+                                    <button class"bg-blue-400 text-white font-bold py-2 px-4 rounded">Passer commande</button>
+                                </div>                 
+                          </div>`;
+    cartContainer.appendChild(cartDiv);
+
+}
+
+function showCart(){
+    cartContainer.removeAttribute('invisible');
 }
