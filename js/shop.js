@@ -34,12 +34,15 @@ categoryTitle.addEventListener('click', () => {
     showArticles();
 });
 
-articles.forEach(article => {
-    const plusButton = document.getElementById(`${article.name}`);
-    plusButton.addEventListener('click', () => {
-        addToCart(article);
+
+function addArticle(){
+    articles.forEach(article => {
+        const plusButton = document.getElementById(`${article.name}`);
+        plusButton.addEventListener('click', () => {
+            addToCart(article);
+        });
     });
-});
+}
 
 function cartEvent(){
     cart.forEach(article => {
@@ -61,9 +64,7 @@ function cartEvent(){
                 showCart();
             }
         });
-    
-    
-    
+
         const deleteArticle = document.getElementById(`delete${article.id}`);
         deleteArticle.addEventListener('click', () => {
             const index = cart.indexOf(article);
@@ -76,7 +77,7 @@ function cartEvent(){
         if(cart.length === 0){
             cartContainer.setAttribute('class', "invisible");
         }
-    }, "500");
+    }, 500);
 }
 
 orderButton.addEventListener('click', () => {
@@ -138,7 +139,9 @@ function showArticles(){
                                 </button>
                            </div>`;
         articleContainer.appendChild(card);
-    })
+        
+    });
+    addArticle();
 }
 
 /**
@@ -152,16 +155,21 @@ function showFilteredArticle(categoryId){
 
     filteredArticles.forEach(article => {
             let card = document.createElement('div');
-            card.setAttribute('class', "mt-4 flex flex-col justify-between");
-            card.innerHTML += `<span class="text-sm text-gray-700">${article.name}</span>`;
-            card.innerHTML += `<p class="text-sm font-medium text-gray-900">${article.price}€</p>`;
-            card.innerHTML += `<button type="button" id="${article.name}" class="w-10 rounded-xl bg-blue-400 px-3 py-2 flex items-end justify-items-end">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                                    </svg>
-                                </button>`;
+            card.setAttribute('class', "mt-4 flex flex-col justify-between bg-white rounded-xl shadow-lg");
+            card.innerHTML += `<span class="my-4 mx-2 font-semibold text-sm text-gray-700">${article.name}</span>`;
+            card.innerHTML += `<p class="my-2 mx-2 text-sm font-medium text-gray-900">${article.price}€</p>`;
+            card.innerHTML += `<div class="flex justify-end">
+                                    <button type="button" id="${article.name}" class="w-10 rounded-xl bg-blue-400 px-3 py-2 flex items-end justify-end">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                        </svg>
+                                    </button>
+                                </div>`;
             articleContainer.appendChild(card);
-        
+            const plusButton = document.getElementById(`${article.name}`);
+            plusButton.addEventListener('click', () => {
+                addToCart(article);
+            });
     });
 }
 
@@ -214,9 +222,9 @@ function showCart(){
     cartContent.innerHTML = '';
     cart.forEach(article => {
         let content = document.getElementById('cart-content');
-        content.innerHTML += `<div class="flex flex-col my-4">
-                                <span class="">${article.name}</span>
-                                <span class="">${article.price}€</span>
+        content.innerHTML += `<div class="flex flex-col my-4 rounded-md bg-gray-200 shadow-lg">
+                                <span class="mb-4 font-semibold text-gray-700">${article.name}</span>
+                                <span class="mb-2 text-gray-700">${article.price} €</span>
                                 <div class="flex flex-row w-10">
                                     <button type="button" id="minus${article.id}" class="w-10 rounded-md bg-gray-400 px-2 py-2 flex justify-end">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
