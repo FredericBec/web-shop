@@ -2,7 +2,6 @@ const categoryContainer = document.getElementById('category');
 const categoryTitle = document.getElementById('category-title');
 const articleContainer = document.getElementById('articles');
 const cartContainer = document.getElementById('cart-container');
-const orderButton = document.getElementById('order');
 
 let articles = [];
 let categories = [];
@@ -79,10 +78,6 @@ function cartEvent(){
         }
     }, 500);
 }
-
-orderButton.addEventListener('click', () => {
-    order();
-});
 
 /**
  * Création des catégories
@@ -182,15 +177,21 @@ function createCart(){
     cartDiv.innerHTML += `<div class="bg-gray-100 rounded-lg shadow-lg p-6 min-h-screen">
                                 <h1 class="font-bold">Panier :</h1>
                                 <div id="cart-content" class="flex flex-col my-4 mb-4"></div>
-                                <div class="flex justify-between items-center">
+                                <div class="flex justify-between items-center my-4">
                                     <span class="font-bold">Total :</span>
                                     <span id="total" class="font-bold"></span>
                                 </div>
-                                <div>
-                                    <button id="order" class="bg-blue-400 text-white font-bold my-4 py-2 px-4 rounded">Passer commande</button>
+                                <div class="flex justify-end">
+                                    <button type="button" id="orderButton" class="bg-blue-400 text-white font-bold my-4 py-2 px-4 rounded">Passer commande</button>
                                 </div>                 
                           </div>`;
     cartContainer.appendChild(cartDiv);
+
+    const orderButton = document.getElementById('orderButton');
+    orderButton.addEventListener('click', () => {
+        const modal = document.getElementById('modal');
+        modal.classList.remove('hidden');
+    });
 
 }
 
@@ -251,8 +252,4 @@ function showCart(){
 
     let total = document.getElementById('total');
     total.innerHTML = `${totalCart()}`;
-}
-
-function order(){
-    
 }
