@@ -20,6 +20,21 @@ function init(){
 init();
 
 /**
+ * Ecoute d'évènement sur l'ensemble des catégories
+ */
+categories.forEach(category => {
+    const categoryLink = document.getElementById(`${category.id}`);
+    categoryLink.addEventListener('click', () => {
+        showFilteredArticle(category.id);
+    });
+});
+
+categoryTitle.addEventListener('click', () => {
+    articleContainer.innerHTML = '';
+    showArticles();
+});
+
+/**
  * Création des catégories
  */
 function createCategories(){
@@ -44,14 +59,14 @@ function showCategories(){
 }
 
 function createArticle(){
-    articles.push(new Article("MSI Katana 17", 1300.00, categories[1].id));
-    articles.push(new Article("Windows 10", 150.00, categories[4].id));
-    articles.push(new Article("Apple macBook", 2500.00, categories[0].id));
-    articles.push(new Article("Galaxy S10", 1150.00, categories[5].id));
-    articles.push(new Article("Carte mère ROG Strix X570-E", 600.00, categories[2].id));
-    articles.push(new Article("Casque audio Corsair", 90.00, categories[3].id));
-    articles.push(new Article("Mémoire PC DDR4 Kingston", 100.00, categories[2].id));
-    articles.push(new Article("Ecran Iiyama 27 pouces", 250.00, categories[3].id));
+    articles.push(new Article("MSI Katana 17", 1300.00, 1, categories[1].id));
+    articles.push(new Article("Windows 10", 150.00, 1, categories[4].id));
+    articles.push(new Article("Apple macBook", 2500.00, 1, categories[0].id));
+    articles.push(new Article("Galaxy S10", 1150.00, 1, categories[5].id));
+    articles.push(new Article("Carte mère ROG Strix X570-E", 600.00, 1, categories[2].id));
+    articles.push(new Article("Casque audio Corsair", 90.00, 1, categories[3].id));
+    articles.push(new Article("Mémoire PC DDR4 Kingston", 100.00, 1, categories[2].id));
+    articles.push(new Article("Ecran Iiyama 27 pouces", 250.00, 1, categories[3].id));
 }
 
 function showArticles(){
@@ -69,21 +84,6 @@ function showArticles(){
         articleContainer.appendChild(card);
     })
 }
-
-/**
- * Ecoute d'évènement sur l'ensemble des catégories
- */
-categories.forEach(category => {
-    const categoryLink = document.getElementById(`${category.id}`);
-    categoryLink.addEventListener('click', () => {
-        showFilteredArticle(category.id);
-    });
-});
-
-categoryTitle.addEventListener('click', () => {
-    location.reload();
-});
-
 
 /**
  * fonction permettant d'afficher les articles par la catégorie sélectionnée
@@ -131,8 +131,12 @@ function addToCart(){
     articles.forEach(article => {
         const plusButton = document.getElementById(`${article.name}`);
         plusButton.addEventListener('click', () => {
+            if(!cart.includes(article)){
                 cart.push(article);
-                showCart();
+            }else {
+                article.quantity += 1;
+            };
+            showCart();
         });
     });
 }
@@ -140,7 +144,7 @@ function addToCart(){
 function totalCart(){
     let total = 0;
     cart.forEach(article => {
-        total += article.price;
+        total += (article.price * article.quantity);
     });
 
     return total;
@@ -163,7 +167,7 @@ function showCart(){
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
                                         </svg>                          
                                     </button>
-                                    <input type="number" value="1" class="w-4 text-center">
+                                    <input id="quantity" type="text" value="${article.quantity}" class="w-4 text-center">
                                     <button type="button" id="${article.name}" class="rounded-md bg-blue-400 px-3 py-2 flex justify-end">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />

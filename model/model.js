@@ -1,7 +1,8 @@
 class Article{
-    constructor(name, price, idCategory){
+    constructor(name, price, quantity, idCategory){
         this.name = name;
         this.price = price;
+        this.quantity = quantity;
         this.idCategory = idCategory;
     }
 
