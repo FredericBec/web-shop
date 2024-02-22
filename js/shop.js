@@ -104,6 +104,9 @@ function showCategories(){
     })
 }
 
+/**
+ * création des articles
+ */
 function createArticle(){
     articles.push(new Article(1, "MSI Katana 17", 1300.00, 1, categories[1].id));
     articles.push(new Article(2, "Windows 10", 150.00, 1, categories[4].id));
@@ -115,9 +118,11 @@ function createArticle(){
     articles.push(new Article(8, "Ecran Iiyama 27 pouces", 250.00, 1, categories[3].id));
 }
 
+/**
+ * Affichage des articles
+ */
 function showArticles(){
     articles.forEach(article => {
-        //console.log(article.idCategory);
         let card = document.createElement('div');
         card.setAttribute('class', "mt-4 flex flex-col justify-between");
         card.innerHTML += `<span class="text-sm text-gray-700">${article.name}</span>`;
@@ -155,6 +160,9 @@ function showFilteredArticle(categoryId){
     })
 }
 
+/**
+ * création du panier
+ */
 function createCart(){
     let cartDiv = document.createElement('div');
     cartDiv.setAttribute('class', "flex flex-col justify-center min-h-screen");
@@ -191,12 +199,14 @@ function totalCart(){
     return total;
 }
 
+/**
+ * Affichage du panier
+ */
 function showCart(){
     cartContainer.setAttribute('class', "visible");
     const newCart = new Cart(cart, totalCart());
     const cartContent = document.getElementById('cart-content');
     cartContent.innerHTML = '';
-    console.log(newCart);
     cart.forEach(article => {
         let content = document.getElementById('cart-content');
         content.innerHTML += `<div class="flex flex-col">
