@@ -57,7 +57,8 @@ cancelForm.addEventListener('click', () => {
     modalForm.classList.add('hidden');
 });
 
-validForm.addEventListener('click', () => {
+validForm.addEventListener('submit', (e) => {
+    e.preventDefault();
     order();
 });
 
