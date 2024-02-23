@@ -320,7 +320,7 @@ function order(){
         order.articles.forEach(article => {
             let articleSpan = document.createElement('span');
             articleSpan.setAttribute('class', "font-semibold text-gray-700")
-            articleSpan.textContent = `${article.name} - ${article.price} €/u - ${article.quantity}`;
+            articleSpan.textContent = `${article.name} - ${article.price} €/u - quantité : ${article.quantity}`;
             orderDiv.appendChild(articleSpan);
         });
         let totalSpan = document.createElement('span');
