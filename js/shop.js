@@ -228,7 +228,9 @@ function addToCart(article){
     if(!cart.includes(article)){
         cart.push(article);
     }else {
-        article.quantity += 1;
+        if(article.quantity < 10){
+            article.quantity += 1;
+        }
     };
     showCart();
 }
