@@ -2,10 +2,20 @@ const categoryContainer = document.getElementById('category');
 const categoryTitle = document.getElementById('category-title');
 const articleContainer = document.getElementById('articles');
 const cartContainer = document.getElementById('cart-container');
+const modal = document.getElementById('modal');
+const modalForm = document.getElementById('modal-form');
+const modalOrder = document.getElementById('modal-order');
+const continueShop = document.getElementById('continue');
+const takeOrder = document.getElementById('takeOrder');
+const cancelForm = document.getElementById('cancel');
+const validForm = document.getElementById('valid');
+const orderContainer = document.getElementById('order-container');
 
 let articles = [];
 let categories = [];
 let cart = [];
+let orders = [];
+let customers = [];
 
 function init(){
     createCategories();
@@ -31,6 +41,24 @@ categories.forEach(category => {
 categoryTitle.addEventListener('click', () => {
     articleContainer.innerHTML = '';
     showArticles();
+});
+
+continueShop.addEventListener('click', () => {
+    modal.classList.add('hidden');
+});
+
+takeOrder.addEventListener('click', () => {
+    modal.classList.add('hidden');
+    modalForm.classList.remove('hidden');
+});
+
+cancelForm.addEventListener('click', () => {
+    document.getElementById('customer').reset();
+    modalForm.classList.add('hidden');
+});
+
+validForm.addEventListener('click', () => {
+    order();
 });
 
 
@@ -213,12 +241,13 @@ function totalCart(){
     return total;
 }
 
+let newCart = new Cart(totalCart());
 /**
  * Affichage du panier
  */
 function showCart(){
     cartContainer.setAttribute('class', "visible");
-    const newCart = new Cart(cart, totalCart());
+
     const cartContent = document.getElementById('cart-content');
     cartContent.innerHTML = '';
     cart.forEach(article => {
@@ -251,5 +280,65 @@ function showCart(){
     cartEvent();
 
     let total = document.getElementById('total');
-    total.innerHTML = `${totalCart()}`;
+    total.innerHTML = `${totalCart()} €`;
+    newCart.articles = [];
+    cart.forEach(article => {
+        newCart.articles.push(article);
+    });
+    newCart.total = totalCart();
+}
+
+function order(){
+    let name = document.getElementById('name').value;
+    let address = document.getElementById('address').value;
+    let email = document.getElementById('email').value;
+    let phone = document.getElementById('phone').value;
+
+    let customer = {name, address, email, phone};
+    customers.push(customer);
+
+    orders.push(newCart);
+
+    cart.forEach(article => {
+        const index = cart.indexOf(article);
+        cart.splice(index, cart.length);
+    });
+    setTimeout(() => {
+        if(cart.length === 0){
+            cartContainer.setAttribute('class', "invisible");
+        }
+    }, 500);
+
+    let orderCard = document.createElement('div');
+    orderCard.setAttribute('class', "my-2 mx-3");
+    orders.forEach(order => {
+        let orderDiv = document.createElement('div');
+        orderDiv.setAttribute('class', "flex flex-col bg-white mt-2");
+        order.articles.forEach(article => {
+            let articleSpan = document.createElement('span');
+            articleSpan.setAttribute('class', "font-semibold text-gray-700")
+            articleSpan.textContent = `${article.name} - ${article.price} €/u - ${article.quantity}`;
+            orderDiv.appendChild(articleSpan);
+        });
+        let totalSpan = document.createElement('span');
+        totalSpan.setAttribute('class', "font-semibold text-gray-700")
+        totalSpan.textContent = `Total : ${order.total}`;
+        orderDiv.appendChild(totalSpan);
+        orderCard.appendChild(orderDiv);
+    });
+
+    let customerdiv = document.createElement('div');
+    customerdiv.setAttribute('class', "flex flex-col bg-white");
+    customerdiv.innerHTML += `<div class="grid grid-cols-2 gap-1">
+                                    <span class="font-semibold text-gray-700">${customer.name}</span>
+                                    <span class="font-semibold text-gray-700">${customer.address}</span>
+                                    <span class="font-semibold text-gray-700">${customer.email}</span>
+                                    <span class="font-semibold text-gray-700">${customer.phone}</span>
+                                </div>`;
+    orderCard.appendChild(customerdiv);
+    orderContainer.appendChild(orderCard);
+
+    document.getElementById('customer').reset();
+    modalForm.classList.add('hidden');
+    modalOrder.classList.remove('hidden');
 }
