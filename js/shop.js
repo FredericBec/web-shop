@@ -135,14 +135,14 @@ function showCategories(){
  * création des articles
  */
 function createArticle(){
-    articles.push(new Article(1, "MSI Katana 17", 1300.00, 1, categories[1].id));
-    articles.push(new Article(2, "Windows 10", 150.00, 1, categories[4].id));
-    articles.push(new Article(3, "Apple macBook", 2500.00, 1, categories[0].id));
-    articles.push(new Article(4, "Galaxy S10", 1150.00, 1, categories[5].id));
-    articles.push(new Article(5, "Carte mère ROG Strix X570-E", 600.00, 1, categories[2].id));
-    articles.push(new Article(6, "Casque audio Corsair", 90.00, 1, categories[3].id));
-    articles.push(new Article(7, "Mémoire PC DDR4 Kingston", 100.00, 1, categories[2].id));
-    articles.push(new Article(8, "Ecran Iiyama 27 pouces", 250.00, 1, categories[3].id));
+    articles.push(new Article(1, "MSI Katana 17", 1300.00, 1,"../images/katana17.png", categories[1].id));
+    articles.push(new Article(2, "Windows 10", 150.00, 1,"../images/windows-10-home.jpg", categories[4].id));
+    articles.push(new Article(3, "Apple macBook", 2500.00, 1,"../images/macbook-air-silver.jpg", categories[0].id));
+    articles.push(new Article(4, "Galaxy S10", 1150.00, 1,"../images/samsung-galaxy-s10.jpg", categories[5].id));
+    articles.push(new Article(5, "Carte mère ROG Strix X570-E", 600.00, 1,"../images/rogstrix.jpg", categories[2].id));
+    articles.push(new Article(6, "Casque audio Corsair", 90.00, 1,"../images/corsair.jpg", categories[3].id));
+    articles.push(new Article(7, "Mémoire PC DDR4 Kingston", 100.00, 1,"../images/kingston.jpg", categories[2].id));
+    articles.push(new Article(8, "Ecran Iiyama 27 pouces", 250.00, 1,"../images/ecraniiyama.jpg", categories[3].id));
 }
 
 /**
@@ -152,6 +152,7 @@ function showArticles(){
     articles.forEach(article => {
         let card = document.createElement('div');
         card.setAttribute('class', "mt-4 flex flex-col justify-between bg-white rounded-xl shadow-lg");
+        card.innerHTML += `<img src="${article.img}" class="h-48 w-48 object-cover object-center" alt="${article.name}" />`;
         card.innerHTML += `<span class="my-4 mx-2 font-semibold text-sm text-gray-700">${article.name}</span>`;
         card.innerHTML += `<p class="my-2 mx-2 text-sm font-medium text-gray-900">${article.price} €</p>`;
         card.innerHTML += `<div class="flex justify-end">
@@ -310,7 +311,7 @@ function order(){
     }, 500);
 
     let orderCard = document.createElement('div');
-    orderCard.setAttribute('class', "my-2 mx-3");
+    orderCard.setAttribute('class', "my-2 mx-3 border-t border-solid border-blueGray-200");
     orders.forEach(order => {
         let orderDiv = document.createElement('div');
         orderDiv.setAttribute('class', "flex flex-col bg-white mt-2");
